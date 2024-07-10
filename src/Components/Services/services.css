@@ -1,0 +1,42 @@
+/* src/components/Services.css */
+
+.services-container {
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .services-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  .services-image {
+    width: 300px;
+    height: auto;
+    margin-right: 20px;
+  }
+  
+  .services-text {
+    max-width: 500px;
+    text-align: left;
+  }
+  
+  .search-button {
+    display: block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .search-button:hover {
+    background-color: rgb(101, 50, 50);
+    border-radius: 50%;
+  }
+  

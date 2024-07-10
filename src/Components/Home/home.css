@@ -1,0 +1,47 @@
+.home-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: left;
+  height: 100%;
+  text-align: center;
+  z-index: 1;
+  /* position: relative; */
+}
+
+.home-content .text1, .home-content .text2 {
+  margin: 10px 0;
+  max-width: 90%;
+  background : none;
+}
+.text1 {
+  height: auto;
+  width: 300px;
+  margin-top: 50px;
+  margin-left: 100px; 
+}
+
+.text2 {
+  height: auto;
+  width: 300px;
+  margin-top: 50px;
+  margin-left: 100px; 
+}
+
+.home-text { 
+  background-size: cover;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+.text{
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: left;
+  margin-top: 50px;
+  margin-left: 100px;
+}

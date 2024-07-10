@@ -1,0 +1,28 @@
+/* Navbar.css */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: transparent;
+  z-index: 1;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.navbar .logo img {
+  height: 80px;
+}
+
+.navbar .nav-links {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.navbar .nav-links li {
+  margin: 0 10px;
+  color: #FFF8E1;
+  cursor: pointer;
+}

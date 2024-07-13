@@ -11,8 +11,6 @@ const menuItemRoute = require('./Routes/menuItemRoute');
 
 mongoose.connect(process.env.MONGODB_URL,
     {
-        useNewUrlParser: true, 
-        useUnifiedTopology: true, 
         serverSelectionTimeoutMS: 30000
     }
 )

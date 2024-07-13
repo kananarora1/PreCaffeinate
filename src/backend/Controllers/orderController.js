@@ -4,12 +4,22 @@ const order = require('../Models/order');
 // Create a new order
 exports.postOrder = async (req, res) => {
     try{
-    const newOrder = new order(req.body);
-    await newOrder.save();
-    res.json({ message: "Order placed successfully" });
-}
-catch(error){
-    res.json({message: "Not able to place order " + error});
+        const menuItem = await MenuItem.findById(req.body.orderedItem);
+        if(!menuItem){
+            return res.status(404).json({ message: "Menu item not found" });
+        }
+        const newOrder = new order({
+            orderedItem: req.body.orderedItem,
+            orderedItemQuantity: req.body.orderedItemQuantity,
+            orderedBy: req.body.orderedBy,
+            orderPrice: menuItem.price
+        
+        });
+        await newOrder.save();
+        res.json({ message: "Order placed successfully" });
+    }
+    catch(error){
+        res.json({message: "Not able to place order " + error});
 }
 };
 

@@ -4,8 +4,10 @@ import './services.css'; // Import your CSS file for styling
 const Services = () => {
   return (
     <div className="services-container">
-      <h2 className = "yoyo">Service  Which we provide</h2>
-      <div className = "line"></div>
+      <div className='serviceHeading'>
+        <div className = "line"></div>
+        <h2 className = "yoyo">Service  Which We Provide</h2>
+      </div>
       <div className="services-content">
         <img src= "/Assets/serviceimage.jpeg" alt="Cafe" className="services-image" />
         <div className="services-text">
@@ -22,6 +24,7 @@ const Services = () => {
         </div>
         <button className="order-button">Order Now!!</button>
         </div>
+      <div className='bottom-line'></div>
       <div className="menu-items">
         <span className="menu-item">MEALS</span>
         <span className="menu-item">SNACKS</span>

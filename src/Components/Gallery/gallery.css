@@ -1,0 +1,42 @@
+.gallery-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  .gallery-item {
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .gallery-item:hover .gallery-image {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .gallery-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .gallery-image {
+    width: 200px;
+    height: 250px;
+    border-radius: 8px;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }

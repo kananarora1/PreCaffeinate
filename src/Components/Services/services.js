@@ -25,18 +25,6 @@ const Services = () => {
         <button className="order-button">Order Now!!</button>
         </div>
       <div className='bottom-line'></div>
-      <div className="menu-items">
-        <span className="menu-item">MEALS</span>
-        <span className="menu-item">SNACKS</span>
-        <span className="menu-item">MILKSHAKES</span>
-        <span className = "menu-item">BEVERAGES</span>
-      </div>
-      <div className='image-container'>
-      <img src= "/Assets/meal.jpeg" alt = "meal" className = "meal"/>
-      <img src = "/Assets/snacks.jpeg" alt = "snacks" className = "snacks"/>
-      <img src = "/Assets/milkshake.jpeg" alt ="milkshakes" className='milkshake'/>
-      <img src = "/Assets/beverages.jpeg" alt = "beverages" className='beverages'/>
-      </div>
       </div>
   )};
 

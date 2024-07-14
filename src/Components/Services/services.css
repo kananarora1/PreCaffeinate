@@ -72,61 +72,11 @@
     align-items: center;
     padding: 20px;
   }
-  .menu-items {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-  }
-  .menu-item {
-    font-size: 1.2em;
-    cursor: pointer;
-    transition: transform 0.3s ease, color 0.3s ease;
-  }
-  .menu-item:hover {
-    transform: scale(1.1);
-    color: #8d480b;
-  }
-  .yoyo {
-    font-family :'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-weight : bolder;
-    font-size: 40px;
-  }
   .services-text {
     font-family: 'Times New Roman', Times, serif;
     font-size: 22px;
     font-weight: 600;
 
-  }
-  .menu-items {
-    display: flex;
-    justify-content: space-between;
-    margin-left: 50px;
-    margin-right: 50px;
-    margin-top: 50px;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    font-size :x-large ;
-  }
-  .meal {
-    width: 100px;
-  }
-  .image-container{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-left: 50px;
-    margin-right: 50px;
-    margin-top: 20px;
-  }
-  .snacks {
-    width: 100px;
-  }
-  .milkshake{
-    width: 100px;
-    height : 125px;
-  }
-  .beverages{
-    height : 125px;
-    width : 100px;
   }
   .line{
     width: 500px;

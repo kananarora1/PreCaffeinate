@@ -3,7 +3,7 @@ import HomeContent from '../Home/home';
 import Services from '../Services/services';
 import Gallery from '../Gallery/gallery';
 
-function appPage() {
+function MainApp() {
     return (
         <div className="App">
             <HomeContent />
@@ -13,4 +13,4 @@ function appPage() {
     );
 }
 
-export default appPage;
+export default MainApp;

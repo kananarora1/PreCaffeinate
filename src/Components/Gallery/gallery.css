@@ -1,13 +1,14 @@
 .gallery-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+    flex-wrap: wrap;
     align-items: center;
     width: 100%;
-    max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    box-sizing: border-box;
+    background-color: #FFF5EE;
     animation: fadeIn 1s ease-in-out;
+
   }
   
   .gallery-item {
@@ -16,7 +17,7 @@
   }
   
   .gallery-item:hover .gallery-image {
-    transform: scale(1.1);
+    transform: scale(1.15);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
   

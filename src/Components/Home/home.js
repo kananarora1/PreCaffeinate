@@ -9,8 +9,15 @@ const HomeContent = () => {
       <div className="home-text">
       <NavBar />
       <div className="text">
-      <img src="./Assets/text1.png" alt="PreCaffeinate" className="text1" />
-      <img src="./Assets/text2new.png" alt="The Best TIME To Drink Coffee is NOW" className="text2" />
+        <p class="text1">PreCaffeinate</p>
+        <p class="text2">The Best</p>
+        <p class="text3">TIME</p>
+        <p class="text4">To Drink</p>
+        <p class="text5">
+        <img src='./Assets/coffeecup.jpg' alt="Coffee" className="text-5-image" />
+        Coffee
+        </p>
+        <p><span class="text6">is</span><span class="text7">NOW</span></p>
       </div>
       </div>
     </div>

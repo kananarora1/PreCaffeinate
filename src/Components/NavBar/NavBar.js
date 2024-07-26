@@ -13,6 +13,7 @@ const Navbar = () => {
         <li>Service</li>
         <li>About Us</li>
         <li>Contact Us</li>
+        <li>Log Out</li>
       </ul>
     </nav>
   );

@@ -12,6 +12,7 @@
 
 .navbar .logo img {
   height: 80px;
+  mix-blend-mode: color-burn;
 }
 
 .navbar .nav-links {

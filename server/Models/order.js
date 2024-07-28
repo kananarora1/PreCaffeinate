@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 const userSchema = require('./user');
-const menuItemSchema = require('./menuitem');
+const menuItemSchema = require('./menuItem');
 
 const orderSchema = new mongoose.Schema({
     orderedItem:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: menuItemSchema,
+        ref: 'MenuItem',
         required: true
     },
     orderedItemQuantity:{

@@ -18,12 +18,14 @@
 .navbar .nav-links {
   list-style: none;
   display: flex;
+  width: 500px;
   justify-content: space-around;
   align-items: center;
 }
 
-.navbar .nav-links li {
+.navbar .nav-links a {
   margin: 0 10px;
+  text-decoration: none;
   color: #FFF8E1;
   cursor: pointer;
 }

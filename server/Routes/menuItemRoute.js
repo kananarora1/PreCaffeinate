@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const menuItemController = require('../Controllers/menuItemController');
-// const menuItemModel = require('../Models/menuitem');
 
 router.post('/createMenuItem', menuItemController.postMenuItem);
 

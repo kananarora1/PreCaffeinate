@@ -16,8 +16,11 @@ const menuItemSchema = new mongoose.Schema({
     itemDescription:{
         type:String,
         required:true
+    },
+    itemImage:{
+        type:String,
+        required:true
     }
 });
 
 module.exports = mongoose.model('menuitem', menuItemSchema) || mongoose.models.menuItem;
-

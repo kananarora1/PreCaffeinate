@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, Navigate } from 'react-router-dom';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -7,14 +8,17 @@ const Navbar = () => {
       <div className="logo">
         <img src="/Assets/cafelogo.jpg" alt="Cafe Logo" />
       </div>
-      <ul className="nav-links">
-        <li>Home</li>
-        <li>Menu</li>
-        <li>Service</li>
-        <li>About Us</li>
-        <li>Contact Us</li>
-        <li>Log Out</li>
-      </ul>
+      <div className="nav-links">
+        <Link to="/">Home</Link>
+        <Link to="/menu">Menu</Link>
+        <Link to="/service">Service</Link>
+        <Link to="/about-us">About Us</Link>
+        <Link to="/contact-us">Contact Us</Link>
+        <Link to="/" onClick={() => {
+          localStorage.removeItem('token');
+          Navigate('/login');
+        }}>Log Out</Link>
+      </div>
     </nav>
   );
 }

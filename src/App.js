@@ -1,12 +1,11 @@
 import React from 'react';
-import HomeContent from './Components/Home/home';
-import Services from './Components/Services/services';
-import Gallery from './Components/Gallery/gallery';
 import { BrowserRouter , Route, Navigate, Routes} from 'react-router-dom';
 import Login from './Components/Pages/login';
 import Register from './Components/Pages/register';
 import ProtectedRoute from './Components/protectedRoute';
 import MainApp from './Components/AppPage/appPage';
+import Menu from './Components/Menu/menu';
+import Cart from './Components/Cart/cart';
 import './App.css';
 
 const App = () => {
@@ -25,6 +24,16 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route path='/menu' element = {
+          <ProtectedRoute>
+            <Menu/>
+          </ProtectedRoute>
+        }/>
+        <Route path ='/cart' element = {
+          <ProtectedRoute>
+            <Cart/>
+          </ProtectedRoute>
+        }/>
       </Routes>
     </BrowserRouter>
 

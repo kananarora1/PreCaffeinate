@@ -1,7 +1,10 @@
 import React from 'react';
 import './services.css'; // Import your CSS file for styling
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const Services = () => {
+  const Navigate = useNavigate();
+
   return (
     <div className="services-container">
       <div className='serviceHeading'>
@@ -22,7 +25,9 @@ const Services = () => {
       <div className="container">
         <div className = "header">
         </div>
-        <button className="order-button">Order Now!!</button>
+        <button className="order-button" onClick={() =>{
+          Navigate('/menu');
+        }}>Order Now!!</button>
         </div>
       <div className='bottom-line'></div>
       </div>

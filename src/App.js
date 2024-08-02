@@ -4,8 +4,8 @@ import Login from './Components/Pages/login';
 import Register from './Components/Pages/register';
 import ProtectedRoute from './Components/protectedRoute';
 import MainApp from './Components/AppPage/appPage';
-import Menu from './Components/Menu/menu';
-import Cart from './Components/Cart/cart';
+import CombinedComponent from './Components/combinedComponent/combined';
+import Profile from './Components/Profile/profile';
 import './App.css';
 
 const App = () => {
@@ -24,16 +24,8 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        <Route path='/menu' element = {
-          <ProtectedRoute>
-            <Menu/>
-          </ProtectedRoute>
-        }/>
-        <Route path ='/cart' element = {
-          <ProtectedRoute>
-            <Cart/>
-          </ProtectedRoute>
-        }/>
+        <Route path='/menu' element = {<CombinedComponent/>}/>
+        <Route path='/profile' element = {<Profile/>}/>
       </Routes>
     </BrowserRouter>
 

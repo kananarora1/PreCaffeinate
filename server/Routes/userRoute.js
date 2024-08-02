@@ -8,4 +8,8 @@ router.post('/login', userController.loginUser);
 
 router.get('/', userController.getAllUsers);
 
+router.patch('/:id', userController.updateUser);
+
+router.get('/:id', userController.getLoggedInUser);
+
 module.exports = router;

@@ -12,7 +12,7 @@ const cors = require('cors');
 
 mongoose.connect(process.env.MONGODB_URL,
     {
-        serverSelectionTimeoutMS: 30000
+        serverSelectionTimeoutMS: 100000
     }
 )
 .then(() => {

@@ -65,3 +65,30 @@ exports.getAllUsers = async (req, res) => {
     const users = await User.find();
     return res.status(200).json(users);
 };
+
+exports.getUserById = async (req, res) => {
+    try{
+      const user = await User.findById(req.params.id);
+      res.json(user);
+    } catch(error){
+      res.json({message: "User not found"});
+    }
+}
+
+exports.updateUser = async (req, res) => {
+    try{
+      const updatedUser = await User.updateOne({_id: req.params.id}, {$set: req.body});
+      res.json(updatedUser);
+    } catch(error){
+      res.json({message: "User not found"});
+    }
+}
+
+exports.getLoggedInUser = async (req, res) => {
+    try{
+      const user = await User.findById(req.user.userId);
+      res.json(user);
+    } catch(error){
+      res.json({message: "User not found"}); 
+    }
+}

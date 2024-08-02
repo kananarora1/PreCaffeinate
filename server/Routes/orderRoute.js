@@ -7,4 +7,6 @@ router.get('/', orderController.getOrders);
 
 router.get('/:id', orderController.getOrderById);
 
+router.get('/user/:id', orderController.getOrderByUserId);
+
 module.exports = router;

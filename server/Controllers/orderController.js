@@ -34,3 +34,10 @@ exports.getOrderById = async (req, res) => {
     const orderById = await order.findById(req.params.orderId);
     return res.status(200).json(orderById);
 };
+
+// Get all orders of a user
+
+exports.getOrderByUserId = async (req, res) => {
+    const orders = await order.find({ orderedBy: req.params.userId });
+    return res.status(200).json(orders);
+}

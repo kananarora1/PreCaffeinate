@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -16,6 +17,9 @@ const Navbar = () => {
           localStorage.removeItem('token');
           Navigate('/login');
         }}>Log Out</Link>
+        <Link to = "/profile">
+          <i className="fas fa-user"></i>
+        </Link>
       </div>
     </nav>
   );

@@ -1,37 +1,36 @@
 const mongoose = require('mongoose');
-const userSchema = require('./user');
-const menuItemSchema = require('./menuItem');
+const User = require('./user');
+const MenuItem = require('./menuItem'); 
 
 const orderSchema = new mongoose.Schema({
-    orderedItem:{
+    orderedItem: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'MenuItem',
+        ref: 'MenuItem', 
         required: true
     },
-    orderedItemQuantity:{
+    orderedItemQuantity: {
         type: Number,
         required: true,
         default: 1
     },
-    orderedBy:{
+    orderedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: userSchema,
+        ref: 'User',
         required: true
     },
-    orderDate:{
+    orderDate: {
         type: Date,
         default: Date.now
     },
-    orderPrice:{
+    orderPrice: {
         type: mongoose.Schema.Types.Decimal128,
-        ref : menuItemSchema,
         required: true
     },
-    orderStatus:{
+    orderStatus: {
         type: String,
         enum: ['ordered', 'preparing', 'completed'],
         default: 'ordered'
     }
 });
 
-module.exports = mongoose.model('order', orderSchema);
+module.exports = mongoose.model('Order', orderSchema); // Export the model, not the schema

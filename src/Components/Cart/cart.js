@@ -1,23 +1,40 @@
-// src/components/Cart.js
 import React, { useContext } from 'react';
-import { CartContext } from './cartContext';
+import { CartContext } from '../context/cartContext';
+import './cart.css';
 
 const Cart = () => {
   const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
 
+  const calculateTotalPrice = () => {
+    return cartItems.reduce((acc, item) => acc + item.itemPrice * item.quantity, 0);
+  };
+
   return (
-    <div>
-      <h2>Cart</h2>
-      <ul>
-        {cartItems.map((item, index) => (
-          <li key={index}>
-            {item.itemName} - Rs {item.itemPrice} x {item.quantity}
-            <button onClick={() => removeFromCart(item)}>-</button>
-            <button onClick={() => addToCart(item)}>+</button>
-          </li>
-        ))}
-      </ul>
-      <h3>Total: Rs {cartItems.reduce((total, item) => total + item.itemPrice * item.quantity, 0)}</h3>
+    <div className="cart-container">
+      <h1>Your Cart</h1>
+      {cartItems.length === 0 ? (
+        <p>Your cart is empty</p>
+      ) : (
+        <div className="cart-items">
+          {cartItems.map((item) => (
+            <div key={item._id} className="cart-item">
+              <div className="cart-item-content">
+                <h2>{item.itemName}</h2>
+                <p className="item-price">Rs {item.itemPrice}</p>
+                <div className="cart-item-controls">
+                  <button onClick={() => removeFromCart(item)}>-</button>
+                  <span>{item.quantity}</span>
+                  <button onClick={() => addToCart(item)}>+</button>
+                </div>
+              </div>
+              <div className="cart-item-image" style={{ backgroundImage: `url(${item.itemImage})` }}></div>
+            </div>
+          ))}
+        </div>
+      )}
+      <div className="cart-total">
+        <h2>Total Price: Rs {calculateTotalPrice()}</h2>
+      </div>
     </div>
   );
 };

@@ -1,65 +1,100 @@
 import React, { useEffect, useState, useContext } from 'react';
 import './profile.css';
-import { CartContext } from '../context/cartContext';
+import { UserContext } from '../context/usercontext';
 
 const Profile = () => {
-  const { user } = useContext(CartContext);
+  const { user } = useContext(UserContext);
   const [orderHistory, setOrderHistory] = useState([]);
+  const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchOrderHistory = async () => {
-      if (!user || !user.id) {
-        console.log('No valid user ID, skipping fetch');
+      if (!user) {
         setLoading(false);
         return;
       }
-      console.log('Fetching order history for user:', user.id);
       try {
-        const response = await fetch(`http://localhost:8080/api/orders/user/${user.id}`);
-        console.log('API response:', response);
+        const response = await fetch(`http://localhost:8080/api/orders/user/${user._id}`);
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        console.log('Order history data:', data);
         setOrderHistory(data);
       } catch (error) {
-        console.error('Error fetching order history:', error);
         setError(error.message);
-      } finally {
-        setLoading(false);
       }
     };
-  
-    fetchOrderHistory();
+
+    const fetchItems = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/api/menuItems`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        setItems(data);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+
+    if (user) {
+      fetchOrderHistory().finally(() => setLoading(false));
+      fetchItems();
+    }
   }, [user]);
 
   if (loading) return <p>Loading profile data...</p>;
   if (error) return <p>Error loading profile: {error}</p>;
   if (!user) return <p>No user data available. Please log in.</p>;
 
+  const getItemNameById = (id) => {
+    const item = items.find(item => item._id === id);
+    return item ? item.itemName : 'Unknown Item';
+  };
+
+  const getItemPriceById = (id) => {
+    const item = items.find(item => item._id === id);
+    return item ? item.itemPrice : 'Unknown Item';
+  };
+
   return (
     <div className="profile-container">
-      <h1>{user.name}'s Profile</h1>
-      <p>Email: {user.email}</p>
-      <h2>Order History</h2>
-      {orderHistory.length === 0 ? (
-        <p>No orders found.</p>
-      ) : (
-        <ul>
-          {orderHistory.map(order => (
-            <li key={order.id}>
-              <h3>Order ID: {order.id}</h3>
-              <p>Items: {order.items.join(', ')}</p>
-              <p>Quantity: {order.quantity}</p>
-              <p>Date: {new Date(order.date).toLocaleDateString()}</p>
-              <p>Total: Rs {order.total}</p>
-            </li>
-          ))}
-        </ul>
-      )}
+      <div className="profile-header">
+        <h1>{user.username}'s Profile</h1>
+        <p className="email">Email: {user.email}</p>
+      </div>
+      
+      <div className="order-history">
+        <h2>Order History</h2>
+        {orderHistory.length === 0 ? (
+          <p>No orders found.</p>
+        ) : (
+          <ul className="order-list">
+            {orderHistory.map(order => (
+              <li key={order._id} className="order-item">
+                <div className="order-date">
+                  <p>Date: {new Date(order.orderDate).toLocaleDateString()}</p>
+                </div>
+                <div className="order-total">
+                  <p>Total: Rs {order.orderPrice}</p>
+                </div>
+                <ul className="order-items">
+                  {order.orderItems.map(item => (
+                    <li key={item.item} className="order-item-detail">
+                      <p><strong>Item:</strong> {getItemNameById(item.item)}</p>
+                      <p><strong>Quantity:</strong> {item.quantity}</p>
+                      <p><strong>Price:</strong> Rs {getItemPriceById(item.item)}</p>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };

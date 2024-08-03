@@ -9,7 +9,15 @@ export const CartProvider = ({ children }) => {
   useEffect(() => {
     const fetchLoggedInUser = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/users/${user.id}');
+        const response = await fetch('http://localhost:8080/api/users/currentUser', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+        );
+        if (!response.ok) {
+          throw new Error('Failed to fetch user');
+        }
         const data = await response.json();
         setUser(data);
       } catch (error) {
@@ -47,7 +55,7 @@ export const CartProvider = ({ children }) => {
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, user }}>
+    <CartContext.Provider value={{ cartItems, setCartItems, addToCart, removeFromCart, user }}>
       {children}
     </CartContext.Provider>
   );

@@ -3,16 +3,19 @@ const User = require('./user');
 const MenuItem = require('./menuItem'); 
 
 const orderSchema = new mongoose.Schema({
-    orderedItem: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'MenuItem', 
-        required: true
-    },
-    orderedItemQuantity: {
-        type: Number,
-        required: true,
-        default: 1
-    },
+    orderItems: [
+        {
+            item: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'MenuItem',
+                required: true
+            },
+            quantity: {
+                type: Number,
+                required: true
+            }
+        }
+    ],
     orderedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -23,7 +26,7 @@ const orderSchema = new mongoose.Schema({
         default: Date.now
     },
     orderPrice: {
-        type: mongoose.Schema.Types.Decimal128,
+        type: Number,
         required: true
     },
     orderStatus: {

@@ -1,12 +1,48 @@
 import React, { useContext } from 'react';
 import { CartContext } from '../context/cartContext';
+import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './cart.css';
 
 const Cart = () => {
-  const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
+  const { cartItems, addToCart, removeFromCart, user, setCartItems } = useContext(CartContext);
+  const navigate = useNavigate();
 
   const calculateTotalPrice = () => {
     return cartItems.reduce((acc, item) => acc + item.itemPrice * item.quantity, 0);
+  };
+
+  const handlePlaceOrder = async () => {
+    const orderItems = cartItems.map(item => ({
+      id: item._id,
+      quantity: item.quantity,
+    }));
+
+    try {
+      const response = await fetch('http://localhost:8080/api/orders/createOrder', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ orderedItems: orderItems, orderedBy: user._id }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Order placed successfully:', data);
+        toast.success('Order placed successfully!');
+        setCartItems([]);
+        setTimeout(() => {
+          navigate('/pending-orders');
+        }, 2000); // Wait for the toast to finish
+      } else {
+        console.error('Failed to place order:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error placing order:', error);
+      toast.error('Error placing order');
+    }
   };
 
   return (
@@ -35,6 +71,12 @@ const Cart = () => {
       <div className="cart-total">
         <h2>Total Price: Rs {calculateTotalPrice()}</h2>
       </div>
+      {cartItems.length > 0 && (
+        <div className="order-container">
+          <button className="order-btn" onClick={handlePlaceOrder}>Place Order</button>
+        </div>
+      )}
+      <ToastContainer />
     </div>
   );
 };

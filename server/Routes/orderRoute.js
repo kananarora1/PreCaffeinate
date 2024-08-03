@@ -1,12 +1,15 @@
 const router = require("express").Router();
 const orderController = require('../Controllers/orderController');
+const user = require('../Models/user');
 
 router.post('/createOrder', orderController.postOrder);
 
-router.get('/', orderController.getOrders);
-
 router.get('/:id', orderController.getOrderById);
 
-router.get('/user/:id', orderController.getOrderByUserId);
+router.get('/user/:userId', orderController.getOrderByUserId);
+
+router.delete('/:id', orderController.deleteOrders);
+
+router.get('/', orderController.getAllOrders);
 
 module.exports = router;

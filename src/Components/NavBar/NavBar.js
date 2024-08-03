@@ -12,6 +12,7 @@ const Navbar = () => {
       <div className="nav-links">
         <Link to="/">Home</Link>
         <Link to="/menu">Menu</Link>
+        <Link to ="/pending-orders">Orders</Link>
         <Link to="/contact-us">Contact Us</Link>
         <Link to="/" onClick={() => {
           localStorage.removeItem('token');

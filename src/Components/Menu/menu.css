@@ -7,17 +7,23 @@
   background-position: center;
   background-repeat: no-repeat;
   width: 75%; /* Ensure the menu takes up 75% of the width */
+  height: 100vh;
+  padding: 20px;
 }
 
 .header-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   padding: 1rem;
 }
 
 .menu-header {
   font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .cart-button {

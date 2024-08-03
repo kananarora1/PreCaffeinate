@@ -83,12 +83,16 @@ exports.updateUser = async (req, res) => {
       res.json({message: "User not found"});
     }
 }
-
+// current user using token
 exports.getLoggedInUser = async (req, res) => {
-    try{
-      const user = await User.findById(req.user.userId);
-      res.json(user);
-    } catch(error){
-      res.json({message: "User not found"}); 
+  try {
+    const user = await User.findById(req.user.userId).select('-password'); // Exclude password field
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
     }
-}
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+

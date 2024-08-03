@@ -1,43 +1,99 @@
 const order = require('../Models/order');
 // const user = require('../Models/user');
+const menuItem = require('../Models/menuItem');
+const mongoose = require('mongoose');
 
 // Create a new order
 exports.postOrder = async (req, res) => {
-    try{
-        const menuItem = await MenuItem.findById(req.body.orderedItem);
-        if(!menuItem){
-            return res.status(404).json({ message: "Menu item not found" });
-        }
-        const newOrder = new order({
-            orderedItem: req.body.orderedItem,
-            orderedItemQuantity: req.body.orderedItemQuantity,
-            orderedBy: req.body.orderedBy,
-            orderPrice: menuItem.price
-        
+    try {
+        const { orderedItems, orderedBy } = req.body;
+
+        // Fetch menu items in parallel using map and Promise.all
+        const menuItems = await Promise.all(
+            orderedItems.map(async ({ id }) => {
+                const item = await menuItem.findById(id);
+                if (!item) {
+                    throw new Error(`Menu item with ID ${id} not found`);
+                }
+                return item;
+            })
+        );
+
+        // Create order details
+        const orderItems = orderedItems.map(({ id, quantity }) => {
+            const item = menuItems.find(menuItem => menuItem._id.toString() === id);
+            const price = item.itemPrice * quantity;
+            return {
+                item: id,
+                quantity,
+                price
+            };
         });
+        const orderPrice = orderItems.reduce((total, item) => total + item.price, 0); 
+        console.log('Total Order Price:', orderPrice);
+        // Create and save the order
+        const newOrder = new order({
+            orderItems,
+            orderedBy,
+            orderPrice,
+            orderStatus: 'ordered'
+        });
+
         await newOrder.save();
-        res.json({ message: "Order placed successfully" });
+
+        res.send({ 
+            message: "Order placed successfully",
+            order: newOrder
+        });
+    } catch (error) {
+        console.error('Error placing order:', error.message);
+        res.status(500).json({ message: `Not able to place orders: ${error.message}` });
     }
-    catch(error){
-        res.json({message: "Not able to place order " + error});
-}
 };
 
-// Get all orders of a user
-exports.getOrders = async (req, res) => {
-    const orders = await order.find({ orderedBy: req.params.userId });
-    return res.status(200).json(orders);
-};
+
 
 // Get order by id
 exports.getOrderById = async (req, res) => {
-    const orderById = await order.findById(req.params.orderId);
-    return res.status(200).json(orderById);
+    const orderById = await order.findById(req.params.id);
+    try{
+        if(!orderById){
+            return res.status(404).json({ message: "Order not found" });
+        }
+        return res.status(200).json(orderById);
+    } catch(error){
+        res.json({message: "Order not found " + error});
+    }
 };
 
-// Get all orders of a user
-
+// Get orders by user ID
 exports.getOrderByUserId = async (req, res) => {
-    const orders = await order.find({ orderedBy: req.params.userId });
+    const userId = req.params.userId;
+    console.log('Fetching orders for user ID:', userId); // Debugging line
+
+    if (!mongoose.isValidObjectId(userId)) {
+        return res.status(400).send('Invalid user ID');
+    }
+
+    try {
+        const orders = await order.find({ orderedBy: userId });
+        res.json(orders);
+    } catch (err) {
+        console.error('Error fetching orders by user ID:', err);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+exports.deleteOrders = async (req, res) => {
+    try {
+        const deletedOrder = await order.deleteOne({ _id: req.params.id });
+        res.json(deletedOrder);
+    } catch (error) {
+        res.json({ message: "Order not found " + error });
+    }
+};
+
+exports.getAllOrders = async (req, res) => {
+    const orders = await order.find();
     return res.status(200).json(orders);
-}
+};

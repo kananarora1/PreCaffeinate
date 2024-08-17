@@ -1,0 +1,62 @@
+.partner-page {
+  padding: 20px;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  color: #333;
+}
+
+.partner-page h1 {
+  margin-bottom: 20px;
+}
+
+.partner-page .orders-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.orders-column {
+  flex: 1;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.orders-column h2 {
+  margin-bottom: 15px;
+  color: #1890ff;
+}
+
+.order-item {
+  padding: 15px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  transition: background-color 0.3s;
+}
+
+.order-item:hover {
+  background-color: #f0f8ff;
+}
+
+.order-item h3 {
+  margin: 0 0 10px;
+}
+
+.order-item p {
+  margin: 5px 0;
+}
+
+.order-details h4 {
+  margin-bottom: 10px;
+}
+
+.order-details ul {
+  padding-left: 20px;
+}
+
+.order-details ul li {
+  margin-bottom: 5px;
+}

@@ -4,24 +4,38 @@ const jwt = require('jsonwebtoken');
 
 
 exports.registerUser = async (req, res) => {
-    try{
+    try {
         const userExists = await User.findOne({ email: req.body.email });
-        
-        if(userExists) return res.status(400).json({ message: "User with that email already exists" });
-
+        if (userExists) {
+            return res.status(400).json({ message: "User with that email already exists" });
+        }
         const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(req.body.password, salt); 
+        const hashedPassword = await bcrypt.hash(req.body.password, salt);
         req.body.password = hashedPassword;
+        req.body.role = 'user';
 
         const newUser = new User(req.body);
         await newUser.save();
-        
-        res.json({ message: "User created successfully" });
-    } catch(error){
-        res.json({message: "Not able to create user " + error});
-    }
 
+        const token = jwt.sign({ userId: newUser._id }, process.env.secret_key_jwt, {
+            expiresIn: '1h',
+        });
+
+        if (req.body.role === 'partner') {
+            const partnerRequest = new PartnerRequest({ userId: newUser._id });
+            await partnerRequest.save();
+        }
+        res.send({
+            success: true,
+            message: 'User created',
+            userId: newUser._id,
+            token
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Not able to create user " + error });
+    }
 }
+
 
 
 exports.loginUser = async (req, res) => {
@@ -48,7 +62,7 @@ exports.loginUser = async (req, res) => {
       }
   
       const token = jwt.sign({ userId: user._id }, process.env.secret_key_jwt, {
-        expiresIn: "1d",
+        expiresIn: "7d",
       });
   
       res.send({
@@ -96,3 +110,71 @@ exports.getLoggedInUser = async (req, res) => {
   }
 };
 
+exports.getPartnerRequests = async (req, res) => {
+  try {
+    const partnerRequests = await User.find({ partnerRequest: true });
+    res.status(200).json({ partnerRequests });
+  } catch (error) {
+    console.error('Error fetching partner requests:', error);
+    res.status(500).json({ message: 'Failed to fetch partner requests.' });
+  }
+};
+
+exports.sendPartnerRequest = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: { partnerRequest: true } },
+      { new: true }
+    );
+  } catch (error) {
+    console.error('Error sending partner request:', error);
+    res.status(500).json({ message: 'Failed to send partner request.' });
+  }
+}
+
+exports.approvePartnerRequest = async (req, res) => {
+
+  const { userId } = req.params;
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: { role: 'partner', partnerRequest: false } },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
+    res.status(200).json({ message: 'Partner request approved.', user: updatedUser });
+  } catch (error) {
+    console.error('Error approving partner request:', error);
+    res.status(500).json({ message: 'Failed to approve partner request.' });
+  }
+};
+
+exports.rejectPartnerRequest = async (req, res) => {
+
+  const { userId } = req.params;
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: { partnerRequest: false } },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
+    res.status(200).json({ message: 'Partner request rejected.', user: updatedUser });
+  } catch (error) {
+    console.error('Error rejecting partner request:', error);
+    res.status(500).json({ message: 'Failed to reject partner request.' });
+  }
+}

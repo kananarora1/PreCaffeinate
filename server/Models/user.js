@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema({
         required: true,
         default: 'user'
     },
+    partnerRequest:{
+        type:Boolean,
+        default:false
+    },
     registerDate:{
         type:Date,
         default:Date.now

@@ -1,39 +1,48 @@
-import React, { useContext, useEffect } from 'react'
-import { Button, Form, Input, message } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useContext, useEffect } from 'react';
+import { Button, Form, Input, message } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
 import { LoginUser } from '../Calls/user';
 import { UserContext } from '../context/usercontext';
 import './Register.css';
 
 function Login() {
   const navigate = useNavigate();
-  const setUser = useContext(UserContext);
+  const { setUser } = useContext(UserContext); // Adjusted context usage
 
   useEffect(() => {
-    if(localStorage.getItem('token')){
-      navigate("/");
+    if (localStorage.getItem('token')) {
+      navigate('/');
     }
-  }, []); 
+  }, [navigate]);
 
   const onFinish = async (values) => {
     try {
       const response = await LoginUser(values);
       if (response.success) {
         message.success(response.message);
-        localStorage.setItem('token', response.token, { expiresIn: '7d' }); // Store the token in local storage
+        localStorage.setItem('token', response.token); 
         const userResponse = await fetch('http://localhost:8080/api/users/currentUser', {
           headers: {
             Authorization: `Bearer ${response.token}`,
           },
         });
         const userData = await userResponse.json();
-        setUser.setUser(userData);
+        setUser(userData);
         console.log('Fetched user data:', userData);
-        navigate('/');
-  }} catch (error) {
+
+        console.log('User role:', userData.role);
+        if (userData.role === 'admin') {
+          navigate('/admin');
+        } else if (userData.role === 'partner') {
+          navigate('/partner');
+        } else {
+          navigate('/');
+        }
+      }
+    } catch (error) {
       message.error(error.message);
     }
-  }
+  };
 
   return (
     <div className='form-container'>

@@ -66,6 +66,28 @@ exports.getOrderById = async (req, res) => {
     }
 };
 
+exports.updateOrder = async (req, res) => {
+    try {
+        const { orderStatus } = req.body;
+        const validStatuses = ['ordered', 'preparing', 'prepared', 'completed'];
+        
+        if (!validStatuses.includes(orderStatus)) { 
+            return res.status(400).json({ message: 'Invalid status' });
+        }
+
+        const Order = await order.findById(req.params.id); 
+        if (!Order) return res.status(404).json({ message: 'Order not found' });
+
+        Order.orderStatus = orderStatus;
+        await Order.save();
+        
+        res.json({ message: `Order status updated to ${orderStatus}` });
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to update order status', error });
+    }
+};
+
+
 // Get orders by user ID
 exports.getOrderByUserId = async (req, res) => {
     const userId = req.params.userId;
@@ -97,3 +119,7 @@ exports.getAllOrders = async (req, res) => {
     const orders = await order.find();
     return res.status(200).json(orders);
 };
+
+
+
+

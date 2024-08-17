@@ -1,0 +1,74 @@
+/* AdminPage.css */
+.admin-page {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .admin-page .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .admin-page h1 {
+    text-align: center;
+    color: #49180c; /* Base color */
+  }
+  
+  .admin-page .logout-button {
+    background-color: #49180c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .admin-page .logout-button:hover {
+    background-color: #733c29;
+  }
+  
+  .admin-page .partner-requests {
+    list-style-type: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 600px;
+  }
+  
+  .admin-page .partner-requests li {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .admin-page .partner-requests li div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .admin-page .partner-requests .approve-button,
+  .admin-page .partner-requests .reject-button {
+    background-color: #49180c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .admin-page .partner-requests .approve-button:hover {
+    background-color: #37724f;
+  }
+  
+  .admin-page .partner-requests .reject-button:hover {
+    background-color: #8c2727;
+  }
+  

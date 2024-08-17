@@ -1,12 +1,14 @@
 import React, { useContext } from 'react';
 import { CartContext } from '../context/cartContext';
+import { UserContext } from '../context/usercontext';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './cart.css';
 
 const Cart = () => {
-  const { cartItems, addToCart, removeFromCart, user, setCartItems } = useContext(CartContext);
+  const { cartItems, addToCart, removeFromCart, setCartItems } = useContext(CartContext);
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
   const calculateTotalPrice = () => {

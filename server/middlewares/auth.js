@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const authenticate = function(req, res, next) {
   try {
@@ -7,7 +8,7 @@ const authenticate = function(req, res, next) {
       return res.status(401).send({ success: false, message: "No token provided" });
     }
     const verifiedtoken = jwt.verify(token, process.env.secret_key_jwt);
-    req.user = { userId: verifiedtoken.userId }; // Store user information in req.user
+    req.user = { userId: verifiedtoken.userId };
     next();
   } catch (error) {
     console.error(error);

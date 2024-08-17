@@ -1,16 +1,42 @@
-import React, { useEffect } from "react";
-import { Form, Input, Button, Radio, message } from "antd";
-import { Link, useNavigate } from "react-router-dom";
-import { RegisterUser } from "../Calls/user";
+import React, { useEffect } from 'react';
+import { Form, Input, Button, Radio, message } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
+import { RegisterUser } from '../Calls/user';
 import './Register.css';
 
 function Register() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      navigate('/');
+    }
+  }, [navigate]);
+
   const onFinish = async (values) => {
-    console.log(values);
     try {
       const response = await RegisterUser(values);
+      console.log(response);
+      console.log(response.userId);
       if (response.success) {
         message.success(response.message);
+        if (values.role === 'partner') {
+          const partnerResponse = await fetch(`http://localhost:8080/api/users/partner-requests/${response.userId}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            body: JSON.stringify({ userId: response.userId }),
+          });
+          const partnerData = await partnerResponse.json();
+          if (partnerResponse.ok) {
+            message.success(partnerData.message);
+          } else {
+            message.error(partnerData.message);
+          }
+        }
+        navigate('/login');
       } else {
         message.error(response.message);
       }
@@ -19,90 +45,63 @@ function Register() {
     }
   };
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      navigate("/");
-    }
-  }, []);
-
   return (
     <div className="form-container">
       <header className="App-header">
         <main className="main-area">
           <section className="left-section">
-            <h1 className="heading">Register to  PreCaffeinate</h1>
+            <h1 className="heading">Register to PreCaffeinate</h1>
           </section>
           <section className="right-section">
             <Form layout="vertical" onFinish={onFinish}>
               <Form.Item
                 label="Name"
-                htmlFor="name"
                 name="name"
                 className="d-block"
-                rules={[{ required: true, message: "Name is required!" }]}
+                rules={[{ required: true, message: 'Name is required!' }]}
               >
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="Enter your name"
-                />
+                <Input type="text" placeholder="Enter your name" />
               </Form.Item>
               <Form.Item
                 label="Email"
-                htmlFor="email"
                 name="email"
                 className="d-block"
-                rules={[{ required: true, message: "Email is required!" }]}
+                rules={[{ required: true, message: 'Email is required!' }]}
               >
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="Enter your email"
-                />
+                <Input type="email" placeholder="Enter your email" />
               </Form.Item>
               <Form.Item
                 label="Password"
-                htmlFor="password"
                 name="password"
                 className="d-block"
-                rules={[{ required: true, message: "Password is required!" }]}
+                rules={[{ required: true, message: 'Password is required!' }]}
               >
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Enter the password"
-                />
+                <Input type="password" placeholder="Enter the password" />
               </Form.Item>
-
+              <Form.Item
+                label="Register as a Partner"
+                name="role"
+                className="d-block text-center"
+                initialValue="user"
+                rules={[{ required: true, message: 'Please select an option!' }]}
+              >
+                <Radio.Group>
+                  <Radio value="partner">Yes</Radio>
+                  <Radio value="user">No</Radio>
+                </Radio.Group>
+              </Form.Item>
               <Form.Item>
                 <Button
                   className="submit-btn"
                   type="primary"
                   htmlType="submit"
                   style={{
-                    backgroundColor: '#49180c', /* Base color */
-                    borderColor: '#49180c', /* Base border color */
+                    backgroundColor: '#49180c', // Base color
+                    borderColor: '#49180c', // Base border color
                   }}
                 >
                   Sign Up
                 </Button>
-              </Form.Item>
-              <Form.Item
-                label="Register as a Partner"
-                htmlFor="role"
-                name="role"
-                className="d-block text-center"
-                initialValue={false}
-                rules={[{ required: true, message: "Please select an option!" }]}
-              >
-                <div className="radio-group">
-                  <Radio.Group name="radiogroup">
-                    <Radio value={'partner'}>Yes</Radio>
-                    <Radio value={'user'}>No</Radio>
-                  </Radio.Group>
-                </div>
               </Form.Item>
             </Form>
             <div>
@@ -115,7 +114,6 @@ function Register() {
       </header>
     </div>
   );
-
 }
 
 export default Register;

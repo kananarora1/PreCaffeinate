@@ -31,10 +31,19 @@ const App = () => {
           <Route path="/profile" element={<Profile />} />
           <Route
             path="/admin"
-            element={<AdminPage />}
+            element={
+            <ProtectedRoute>
+              <AdminPage />
+            </ProtectedRoute>
+            }
           />
           <Route path="/pending-orders" element={<PendingOrders />} />
-          <Route path="/partner" element={<PartnerPage />} />
+          <Route path="/partner" element={
+            <ProtectedRoute>
+              <PartnerPage /> 
+            </ProtectedRoute>
+          }
+            />
         </Routes>
       </BrowserRouter>
     </UserProvider>

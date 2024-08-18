@@ -1,0 +1,40 @@
+.footer-container {
+    background-color: #3e2723; /* Dark Brown Color */
+    color: #ffffff; /* White text for contrast */
+    padding: 20px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    border-top: 4px solid #d7ccc8; /* Light brown for subtle contrast */
+}
+
+.footer-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #ffccbc; /* Light Brown */
+}
+
+.footer-container p {
+    margin: 5px 0;
+    font-size: 1.1rem;
+}
+
+.footer-container a {
+    color: #ffccbc; /* Light Brown */
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.footer-container a:hover {
+    color: #ffe0b2; /* Lighter Brown */
+}
+
+.footer-container .footer-author {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.footer-container .footer-author span {
+    color: #ffab91;
+}

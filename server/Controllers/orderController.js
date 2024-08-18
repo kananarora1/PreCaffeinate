@@ -1,7 +1,12 @@
 const order = require('../Models/order');
-// const user = require('../Models/user');
+const Razorpay = require('razorpay');
 const menuItem = require('../Models/menuItem');
 const mongoose = require('mongoose');
+const { razorpay_key_id, razorpay_key_secret } = process.env;
+const razorpay = new Razorpay({
+    key_id: razorpay_key_id,
+    key_secret: razorpay_key_secret,
+  });
 
 // Create a new order
 exports.postOrder = async (req, res) => {
@@ -31,19 +36,30 @@ exports.postOrder = async (req, res) => {
         });
         const orderPrice = orderItems.reduce((total, item) => total + item.price, 0); 
         console.log('Total Order Price:', orderPrice);
-        // Create and save the order
+
+        // Create a new order in Razorpay
+        const razorpayOrder = await razorpay.orders.create({
+            amount: orderPrice * 100, // Razorpay expects amount in paise (1 INR = 100 paise)
+            currency: 'INR',
+            receipt: `receipt_${new Date().getTime()}`,
+            payment_capture: 1,
+        });
+
+        // Create and save the order in your database
         const newOrder = new order({
             orderItems,
             orderedBy,
             orderPrice,
-            orderStatus: 'ordered'
+            razorpayOrderId: razorpayOrder.id,
+            orderStatus: 'ordered', // Status is pending until payment is completed
         });
 
         await newOrder.save();
 
         res.send({ 
             message: "Order placed successfully",
-            order: newOrder
+            order: newOrder,
+            razorpayOrderId: razorpayOrder.id // Return Razorpay order ID to the frontend
         });
     } catch (error) {
         console.error('Error placing order:', error.message);
@@ -119,7 +135,3 @@ exports.getAllOrders = async (req, res) => {
     const orders = await order.find();
     return res.status(200).json(orders);
 };
-
-
-
-

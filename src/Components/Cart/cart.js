@@ -33,43 +33,54 @@ const Cart = () => {
       id: item._id,
       quantity: item.quantity,
     }));
-
+  
     try {
-      const orderResponse = await fetch('http://localhost:8080/api/orders/createOrder', {
+      // Create a payment order with the backend
+      const paymentOrderResponse = await fetch('http://localhost:8080/api/orders/createOrder', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ orderedItems: orderItems, orderedBy: user._id }),
+        body: JSON.stringify({
+          orderedItems: orderItems,
+          orderedBy: user._id,
+          orderPrice: calculateTotalPrice() 
+        }),
       });
-
-      if (orderResponse.ok) {
-        const orderData = await orderResponse.json();
+  
+      if (paymentOrderResponse.ok) {
+        const paymentOrderData = await paymentOrderResponse.json();
         const options = {
-          key: razorpayKey, 
+          key: razorpayKey,
           amount: calculateTotalPrice() * 100,
           currency: 'INR',
           name: 'PreCaffeinate',
           description: 'Order Payment',
-          order_id: orderData.order_id,
+          order_id: paymentOrderData.razorpayOrderId,
           handler: async function (response) {
-            console.log(response);
-            toast.success('Payment successful!');
-            setCartItems([]);
-            await fetch(`http://localhost:8080/api/orders/${orderData._id}/payment`, {
-              method: 'PATCH',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                paymentId: response.razorpay_payment_id,
-                signature: response.razorpay_signature,
-              }),
-            });
-
-            setTimeout(() => {
-              navigate('/pending-orders');
-            }, 2000);
+            try {
+              const verifyPaymentResponse = await fetch(`http://localhost:8080/api/orders/${paymentOrderData.razorpayOrderId}/verifyPayment`, {
+                method: 'PATCH',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  paymentId: response.razorpay_payment_id,
+                  signature: response.razorpay_signature,
+                }),
+              });
+  
+              if (verifyPaymentResponse.ok) {
+                toast.success('Payment successful!');
+                setCartItems([]);
+                navigate('/pending-orders');
+              } else {
+                toast.error('Payment verification failed');
+              }
+            } catch (error) {
+              console.error('Error verifying payment:', error);
+              toast.error('Error verifying payment');
+            }
           },
           prefill: {
             name: user.name,
@@ -84,21 +95,21 @@ const Cart = () => {
             card: true,
             netbanking: true,
             wallet: true,
-        }
+          }
         };
-
+  
         const rzp = new window.Razorpay(options);
         rzp.open();
       } else {
-        toast.error('Failed to create order');
-        console.error('Failed to place order:', orderResponse.statusText);
+        toast.error('Failed to create payment order');
+        console.error('Failed to create payment order:', paymentOrderResponse.statusText);
       }
     } catch (error) {
-      console.error('Error placing order:', error);
-      console.log(razorpayKey);
-      toast.error('Error placing order');
+      console.error('Error creating payment order:', error);
+      toast.error('Error creating payment order');
     }
   };
+  
 
   return (
     <div className="cart-container">

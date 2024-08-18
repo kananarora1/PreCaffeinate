@@ -6,7 +6,8 @@
 }
 
 .partner-page h1 {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  text-align: center;
 }
 
 .partner-page .orders-container {
@@ -59,4 +60,22 @@
 
 .order-details ul li {
   margin-bottom: 5px;
+}
+
+.unapproved-orders h2 {
+  margin-bottom: 20px; 
+}
+
+.unapproved-orders {
+  margin-bottom: 50px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+}
+
+.header h1 {
+  text-align: center;
+  flex: 1;
 }

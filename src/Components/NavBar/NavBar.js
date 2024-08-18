@@ -1,24 +1,30 @@
 import React from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './Navbar.css';
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = (e) => {
+    e.preventDefault(); // Prevent default link behavior
+    console.log('Logout clicked');
+    localStorage.removeItem('token');
+    navigate('/login');
+    console.log('Navigating to /login');
+  }
+
   return (
     <nav className="navbar">
       <div className="logo">
         <img src="/Assets/cafelogo.jpg" alt="Cafe Logo" />
       </div>
       <div className="nav-links">
-        <Link to="/">Home</Link>
         <Link to="/menu">Menu</Link>
-        <Link to ="/pending-orders">Orders</Link>
+        <Link to="/pending-orders">Active Orders</Link>
         <Link to="/contact-us">Contact Us</Link>
-        <Link to="/" onClick={() => {
-          localStorage.removeItem('token');
-          Navigate('/login');
-        }}>Log Out</Link>
-        <Link to = "/profile">
+        <Link to="/" onClick={handleLogout}>Log Out</Link>
+        <Link to="/profile">
           <i className="fas fa-user"></i>
         </Link>
       </div>

@@ -33,7 +33,15 @@ const orderSchema = new mongoose.Schema({
         type: String,
         enum: ['ordered', 'preparing', 'prepared', 'completed'],
         default: 'ordered'
+    },
+    razorpayOrderId: {
+        type: String,
+        required: true
+    },
+    paymentId: {
+        type: String
     }
-});
+    }, { timestamps: true });
+
 
 module.exports = mongoose.model('Order', orderSchema); // Export the model, not the schema

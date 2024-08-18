@@ -1,15 +1,14 @@
 .menu-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 75%;
+  height: 100vh;
+  padding: 20px;
+  overflow-y: auto;
   background-image: url('https://wallpapers.com/images/hd/cream-color-background-4bzuv5ojrzh90bls.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  width: 75%; /* Ensure the menu takes up 75% of the width */
-  height: 100vh;
-  padding: 20px;
 }
+
 
 .header-container {
   display: flex;

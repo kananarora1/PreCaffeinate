@@ -137,10 +137,10 @@ const PartnerPage = () => {
 
   return (
     <div className="partner-page">
-      <h1>Your Orders</h1>
-      <Button onClick={handleLogout} type="primary" danger>Logout</Button>
-      
-      {/* Section for Unapproved Orders */}
+      <div className = 'header'>
+        <h1>Your Orders</h1>
+        <Button className = 'log-btn' onClick={handleLogout} type="primary" danger>Logout</Button>
+      </div>
       <div className="unapproved-orders">
         <h2>New Orders</h2>
         {unapprovedOrders.length === 0 ? (

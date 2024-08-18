@@ -63,7 +63,7 @@ const Profile = () => {
   return (
     <div className="profile-container">
       <div className="profile-header">
-        <h1>{user.username}'s Profile</h1>
+        <h1>{user.name}'s Profile</h1>
         <p className="email">Email: {user.email}</p>
       </div>
       

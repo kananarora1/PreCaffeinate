@@ -19,7 +19,6 @@ const UserProvider = ({ children }) => {
           });
 
           if (response.status === 401) {
-            // Token might be expired or invalid
             throw new Error('Token expired or invalid');
           }
 

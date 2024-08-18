@@ -1,10 +1,25 @@
 import React from "react";
-import { Route, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
-  const isAuthenticated = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = localStorage.getItem("token");
 
-  return isAuthenticated ? children : <Navigate to="/register" />;
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (user?.role === "partner") {
+    return <Navigate to="/partner" replace />;
+  } 
+  else if (user?.role === "admin") {
+    return <Navigate to="/admin" replace />;
+  }
+   else if (user?.role === "user") {
+    return <Navigate to="/app" replace />;
+  }
+
+  return children;
 };
 
 export default ProtectedRoute;

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Form, Input, message } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { LoginUser } from '../Calls/user';
@@ -7,12 +7,35 @@ import './Register.css';
 
 function Login() {
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext); // Adjusted context usage
+  const { setUser } = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-      navigate('/');
-    }
+    const checkToken = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const userResponse = await fetch('http://localhost:8080/api/users/currentUser', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const userData = await userResponse.json();
+          if (userData.role === 'admin') {
+            navigate('/admin', { replace: true }); // Replace history entry
+          } else if (userData.role === 'partner') {
+            navigate('/partner', { replace: true }); // Replace history entry
+          } else {
+            navigate('/app', { replace: true }); // Replace history entry
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      }
+      setLoading(false);
+    };
+
+    checkToken();
   }, [navigate]);
 
   const onFinish = async (values) => {
@@ -20,7 +43,7 @@ function Login() {
       const response = await LoginUser(values);
       if (response.success) {
         message.success(response.message);
-        localStorage.setItem('token', response.token); 
+        localStorage.setItem('token', response.token);
         const userResponse = await fetch('http://localhost:8080/api/users/currentUser', {
           headers: {
             Authorization: `Bearer ${response.token}`,
@@ -32,17 +55,19 @@ function Login() {
 
         console.log('User role:', userData.role);
         if (userData.role === 'admin') {
-          navigate('/admin');
+          navigate('/admin', { replace: true });
         } else if (userData.role === 'partner') {
-          navigate('/partner');
+          navigate('/partner', { replace: true });
         } else {
-          navigate('/');
+          navigate('/app', { replace: true });
         }
       }
     } catch (error) {
       message.error(error.message);
     }
   };
+
+  if (loading) return <div>Loading...</div>; // or any loading indicator
 
   return (
     <div className='form-container'>

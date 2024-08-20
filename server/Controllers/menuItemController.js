@@ -41,3 +41,24 @@ catch(error){
 }
 };
 
+exports.updateItemsAvailability = async (req, res) => {
+    const { itemAvailable } = req.body;
+
+    try {
+        if (itemAvailable === undefined) {
+            return res.status(400).json({ message: "itemAvailable field is required" });
+        }
+        const result = await menuitem.updateMany({}, { $set: { itemAvailable } });
+
+        res.json({
+            message: `${result.modifiedCount} menu items updated successfully`,
+        });
+    } catch (error) {
+        console.error('Failed to update menu item availability:', error);
+        res.status(500).json({ message: "Not able to update menu item availability " + error.message });
+    }
+};
+  
+  
+  
+

@@ -22,11 +22,11 @@ function Login() {
           });
           const userData = await userResponse.json();
           if (userData.role === 'admin') {
-            navigate('/admin', { replace: true }); // Replace history entry
+            navigate('/admin', { replace: true }); 
           } else if (userData.role === 'partner') {
-            navigate('/partner', { replace: true }); // Replace history entry
+            navigate('/partner', { replace: true }); 
           } else {
-            navigate('/app', { replace: true }); // Replace history entry
+            navigate('/', { replace: true }); 
           }
         } catch (error) {
           console.error('Error fetching user data:', error);
@@ -59,7 +59,7 @@ function Login() {
         } else if (userData.role === 'partner') {
           navigate('/partner', { replace: true });
         } else {
-          navigate('/app', { replace: true });
+          navigate('/', { replace: true });
         }
       }
     } catch (error) {
@@ -67,7 +67,7 @@ function Login() {
     }
   };
 
-  if (loading) return <div>Loading...</div>; // or any loading indicator
+  if (loading) return <div>Loading...</div>; 
 
   return (
     <div className='form-container'>
@@ -102,8 +102,8 @@ function Login() {
               <Form.Item className="d-block">
                 <Button type="primary" htmlType="submit" className='submit-btn'
                   style={{
-                    backgroundColor: '#49180c', /* Base color */
-                    borderColor: '#49180c', /* Base border color */
+                    backgroundColor: '#49180c',
+                    borderColor: '#49180c', 
                   }}
                 >
                   Login

@@ -9,7 +9,6 @@
   background-repeat: no-repeat;
 }
 
-
 .header-container {
   display: flex;
   justify-content: center;
@@ -30,6 +29,28 @@
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
+}
+
+.category-filter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.category-button {
+  background-color: #f0c14b;
+  border: 1px solid #a88734;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.category-button.active {
+  background-color: #a88734;
+  color: white;
 }
 
 .menu-list {

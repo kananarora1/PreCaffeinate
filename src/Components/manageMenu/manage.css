@@ -1,0 +1,45 @@
+.manage-menu-items {
+    padding: 20px;
+  }
+  
+  .manage-menu-items h1 {
+    margin-bottom: 20px;
+  }
+  
+  .menu-items-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .menu-item2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .menu-item-details {
+    flex: 1;
+  }
+  
+  .availability-switch {
+    display: flex;
+    align-items: center;
+  }
+  .redir-btn{
+    margin-bottom: 20px;
+  }
+  .card-img2{
+    width: 100px;
+    height: 100px;
+  }
+  .card-img2-container{
+    display: flex;
+    justify-content: center;
+  }
+  .manage-menu-items h1{
+    text-align: center;
+  }

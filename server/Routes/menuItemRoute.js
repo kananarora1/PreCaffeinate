@@ -9,6 +9,8 @@ router.get('/:id', menuItemController.getMenuItemById);
 
 router.patch('/:id', menuItemController.updateMenuItem);
 
+router.post('/updateAvailability', menuItemController.updateItemsAvailability);
+
 router.delete('/:id', menuItemController.deleteMenuItem);
 
 module.exports = router;

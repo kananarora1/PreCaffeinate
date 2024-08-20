@@ -12,9 +12,16 @@ const PartnerPage = () => {
   const [completedOrders, setCompletedOrders] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [restaurantOpen, setRestaurantOpen] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Check local storage for restaurant open status
+    const storedRestaurantOpen = localStorage.getItem('restaurantOpen');
+    if (storedRestaurantOpen !== null) {
+      setRestaurantOpen(JSON.parse(storedRestaurantOpen));
+    }
+
     const fetchOrders = async () => {
       try {
         const response = await fetch('http://localhost:8080/api/orders', {
@@ -133,14 +140,59 @@ const PartnerPage = () => {
     navigate('/login');
   };
 
+  const updateMenuItemsAvailability = async (available) => {
+    try {
+      const response = await fetch('http://localhost:8080/api/menuItems/updateAvailability', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({ itemAvailable: available }), 
+      });
+  
+      if (response.ok) {
+        const updatedMenuItems = menuItems.map(item => ({ ...item, itemAvailable: available }));
+        setMenuItems(updatedMenuItems);
+        message.success(`Menu items updated to ${available ? 'available' : 'not available'}`);
+      } else {
+        const data = await response.json();
+        message.error(`Failed to update menu items: ${data.message || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Failed to update menu items:', error);
+      message.error('Failed to update menu items');
+    }
+  };
+  
+
+  const handleCloseRestaurant = async () => {
+    setRestaurantOpen(false);
+    localStorage.setItem('restaurantOpen', false); // Store in local storage
+    await updateMenuItemsAvailability(false);
+  };
+
+  const handleOpenRestaurant = async () => {
+    setRestaurantOpen(true);
+    localStorage.setItem('restaurantOpen', true); // Store in local storage
+    await updateMenuItemsAvailability(true);
+  };
+
   if (loading) return <p>Loading...</p>;
 
   return (
     <div className="partner-page">
-      <div className = 'header'>
+      <div className='header'>
         <h1>Your Orders</h1>
-        <Button className = 'log-btn' onClick={handleLogout} type="primary" danger>Logout</Button>
+        <Button className='log-btn' onClick={handleLogout} type="primary" danger>Logout</Button>
+        {restaurantOpen ? (
+          <Button className='close-btn' onClick={handleCloseRestaurant} type="default">Close My Restaurant</Button>
+        ) : (
+          <Button className='open-btn' onClick={handleOpenRestaurant} type="default">Open My Restaurant</Button>
+        )}
+        <Button type="primary" onClick={() => navigate('/manage-menu')}>Update Menu</Button>
       </div>
+      
       <div className="unapproved-orders">
         <h2>New Orders</h2>
         {unapprovedOrders.length === 0 ? (
@@ -170,8 +222,6 @@ const PartnerPage = () => {
           </ul>
         )}
       </div>
-
-      {/* Columns for Pending, Prepared, and Completed Orders */}
       <div className="orders-container">
         <div className="orders-column">
           <h2>Pending Orders</h2>
@@ -205,7 +255,7 @@ const PartnerPage = () => {
         <div className="orders-column">
           <h2>Prepared Orders</h2>
           {preparedOrders.length === 0 ? (
-            <p>No prepared orders at this time.</p>
+            <p>No prepared orders to manage at this time.</p>
           ) : (
             <ul>
               {preparedOrders.map((order) => (
@@ -234,14 +284,15 @@ const PartnerPage = () => {
         <div className="orders-column">
           <h2>Completed Orders</h2>
           {completedOrders.length === 0 ? (
-            <p>No completed orders at this time.</p>
+            <p>No completed orders to manage at this time.</p>
           ) : (
             <ul>
               {completedOrders.map((order) => (
                 <li key={order._id} className="order-item">
                   <div>
-                    <h3>Order Price: Rs{order.orderPrice.toFixed(2)}</h3>
+                    <h3>Order ID: {order._id}</h3>
                     <p>Order Date: {new Date(order.orderDate).toLocaleDateString()}</p>
+                    <p>Order Price: Rs{order.orderPrice.toFixed(2)}</p>
                     <div className="order-details">
                       <h4>Ordered Items:</h4>
                       <ul>

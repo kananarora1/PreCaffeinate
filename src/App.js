@@ -11,6 +11,7 @@ import { UserProvider } from './Components/context/usercontext';
 import PendingOrders from './Components/Pending Orders/pending';
 import AdminPage from './Components/Pages/admin';
 import PartnerPage from './Components/Pages/partner';
+import ManageMenuItems from './Components/manageMenu/manage';
 
 const App = () => {
   return (
@@ -43,7 +44,15 @@ const App = () => {
               <PartnerPage /> 
             </ProtectedRoute>
           }
-            />
+          />
+          <Route 
+          path = "/manage-menu"
+          element = {
+            <ProtectedRoute>
+              <ManageMenuItems />
+            </ProtectedRoute>
+          }
+          />
         </Routes>
       </BrowserRouter>
     </UserProvider>

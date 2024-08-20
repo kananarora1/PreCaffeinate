@@ -79,3 +79,9 @@
   text-align: center;
   flex: 1;
 }
+.log-btn{
+  margin-right: 20px;
+}
+.close-btn, .open-btn{
+  margin-right: 20px;
+}

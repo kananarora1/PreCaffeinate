@@ -18,9 +18,8 @@ const PendingOrders = () => {
         const response = await fetch(`http://localhost:8080/api/orders/user/${user._id}`);
         if (response.ok) {
           const data = await response.json();
-          console.log('Fetched orders data:', data); // Log the data for debugging
+          console.log('Fetched orders data:', data);
 
-          // Ensure data is an array
           if (Array.isArray(data)) {
             const pendingOrders = data.filter(order => order.orderStatus !== 'completed');
             setOrders(pendingOrders);
@@ -38,15 +37,13 @@ const PendingOrders = () => {
       }
     };
 
-    // Fetch item data
     const fetchItems = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/menuItems'); // Adjust endpoint if necessary
+        const response = await fetch('http://localhost:8080/api/menuItems');
         if (response.ok) {
           const data = await response.json();
-          console.log('Fetched items data:', data); // Log the data for debugging
+          console.log('Fetched items data:', data);
 
-          // Ensure data is an array
           if (Array.isArray(data)) {
             setItems(data);
           } else {
@@ -67,7 +64,6 @@ const PendingOrders = () => {
     fetchItems();
   }, [user]);
 
-  // Map item data for quick lookup
   const itemMap = items.reduce((map, item) => {
     if (item && item._id) {
       map[item._id] = item;
@@ -85,13 +81,17 @@ const PendingOrders = () => {
         <div className="orders-list">
           {orders.map(order => (
             <div key={order._id} className="order-card">
+              <div className="order-status">
+                <div className={`dot ${order.orderStatus === 'completed' ? 'still' : 'blinking'}`}></div>
+                <p>{order.orderStatus.charAt(0).toUpperCase() + order.orderStatus.slice(1)}</p>
+              </div>
               <p className="order-price">Price: Rs {order.orderPrice}</p>
               <div className="order-items">
                 {order.orderItems && order.orderItems.map(item => {
                   const itemDetails = itemMap[item.item];
                   if (!itemDetails) {
                     console.warn(`Item with ID ${item.item} not found`);
-                    return null; // Skip rendering if item details are missing
+                    return null;
                   }
                   return (
                     <div key={item._id} className="order-item">

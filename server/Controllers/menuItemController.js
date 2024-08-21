@@ -58,6 +58,8 @@ exports.updateItemsAvailability = async (req, res) => {
         res.status(500).json({ message: "Not able to update menu item availability " + error.message });
     }
 };
+
+
   
   
   

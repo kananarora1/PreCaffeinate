@@ -61,38 +61,43 @@ const Menu = () => {
       <div className="menu-list">
         {filteredItems.map((item) => (
           <div key={item._id} className="menu-item">
-            <div
-              className="menu-item-image"
-              style={{ backgroundImage: `url(${item.itemImage})` }}
-            ></div>
-            <div className="menu-item-footer">
-              <h2 className="menu-item-title">{item.itemName}</h2>
-              <p className="item-price">Rs {item.itemPrice}</p>
-              <div className="button-container">
-                {item.itemAvailable ? (
-                  getItemQuantity(item._id) > 0 ? (
-                    <div className="counter">
-                      <button onClick={() => removeFromCart(item)}>-</button>
-                      <span>{getItemQuantity(item._id)}</span>
-                      <button onClick={() => addToCart(item)}>+</button>
-                    </div>
-                  ) : (
-                    <button 
-                      className="add-to-cart-button" 
-                      onClick={() => addToCart(item)}
-                    >
-                      <i className="fas fa-shopping-cart"></i> Add to Cart
-                    </button>
-                  )
-                ) : (
-                  <button className="add-to-cart-button" disabled>
-                    <i className="fas fa-shopping-cart"></i> Out of Stock
-                  </button>
-                )}
-              </div>
-            </div>
+  <div className="menu-item-image-container">
+    <div
+      className="menu-item-image"
+      style={{ backgroundImage: `url(${item.itemImage})` }}
+    ></div>
+    <div className="item-description">
+      <p>{item.itemDescription}</p>
+    </div>
+  </div>
+  <div className="menu-item-footer">
+    <h2 className="menu-item-title">{item.itemName}</h2>
+    <p className="item-price">Rs {item.itemPrice}</p>
+    <div className="button-container">
+      {item.itemAvailable ? (
+        getItemQuantity(item._id) > 0 ? (
+          <div className="counter">
+            <button onClick={() => removeFromCart(item)}>-</button>
+            <span>{getItemQuantity(item._id)}</span>
+            <button onClick={() => addToCart(item)}>+</button>
           </div>
-        ))}
+        ) : (
+          <button 
+            className="add-to-cart-button" 
+            onClick={() => addToCart(item)}
+          >
+            <i className="fas fa-shopping-cart"></i> Add to Cart
+          </button>
+        )
+      ) : (
+        <button className="add-to-cart-button" disabled>
+          <i className="fas fa-shopping-cart"></i> Out of Stock
+        </button>
+      )}
+        </div>
+      </div>
+    </div>
+))}
       </div>
     </div>
   );

@@ -25,6 +25,11 @@ const menuItemSchema = new mongoose.Schema({
         type:Boolean,
         required:true,
         default:true
+    },
+    isVeg:{
+        type:Boolean,
+        required:true,
+        default:true
     }
 });
 

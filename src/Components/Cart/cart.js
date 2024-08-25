@@ -10,7 +10,8 @@ const Cart = () => {
   const { cartItems, addToCart, removeFromCart, setCartItems } = useContext(CartContext);
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
-  const razorpayKey = "rzp_test_3k4tU1NXzKPP5L";
+  const razorpayKey = "process.env.REACT_APP_RAZORPAY_KEY";
+  const backendUrl = "process.env.REACT_APP_BACKEND_URL";
 
 
   useEffect(() => {
@@ -36,7 +37,7 @@ const Cart = () => {
   
     try {
       // Create a payment order with the backend
-      const paymentOrderResponse = await fetch('http://localhost:8080/api/orders/createOrder', {
+      const paymentOrderResponse = await fetch(`${backendUrl}api/orders/createOrder`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -59,7 +60,7 @@ const Cart = () => {
           order_id: paymentOrderData.razorpayOrderId,
           handler: async function (response) {
             try {
-              const verifyPaymentResponse = await fetch(`http://localhost:8080/api/orders/${paymentOrderData.razorpayOrderId}/verifyPayment`, {
+              const verifyPaymentResponse = await fetch(`${backendUrl}api/orders/${paymentOrderData.razorpayOrderId}/verifyPayment`, {
                 method: 'PATCH',
                 headers: {
                   'Content-Type': 'application/json',

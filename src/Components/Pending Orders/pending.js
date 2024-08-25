@@ -15,7 +15,7 @@ const PendingOrders = () => {
     }
     const fetchOrders = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/orders/user/${user._id}`);
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/orders/user/${user._id}`);
         if (response.ok) {
           const data = await response.json();
           console.log('Fetched orders data:', data);
@@ -39,7 +39,7 @@ const PendingOrders = () => {
 
     const fetchItems = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/menuItems');
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/menuItems`);
         if (response.ok) {
           const data = await response.json();
           console.log('Fetched items data:', data);

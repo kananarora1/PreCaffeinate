@@ -5,11 +5,12 @@ export const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [user, setUser] = useState(null);
+  const backendUrl = "process.env.REACT_APP_BACKEND_URL";
 
   useEffect(() => {
     const fetchLoggedInUser = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/users/currentUser', {
+        const response = await fetch(`${backendUrl}api/users/currentUser`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },

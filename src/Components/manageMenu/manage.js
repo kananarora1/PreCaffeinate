@@ -11,7 +11,7 @@ const ManageMenuItems = () => {
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/menuItems', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/menuItems`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -34,7 +34,7 @@ const ManageMenuItems = () => {
 
   const handleSwitchChange = async (id, available) => {
     try {
-      const response = await fetch(`http://localhost:8080/api/menuItems/${id}`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/menuItems/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

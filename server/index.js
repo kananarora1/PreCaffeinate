@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const user = require('./Models/user');
 require('dotenv').config();
 const app = express();
-const port = 8080;
+const port = process.env.port || 8080;
 const userRoute = require('./Routes/userRoute');
 const order = require('./Models/order');
 const orderRoute = require('./Routes/orderRoute');

@@ -21,7 +21,7 @@ function Register() {
       if (response.success) {
         message.success(response.message);
         if (values.role === 'partner') {
-          const partnerResponse = await fetch(`http://localhost:8080/api/users/partner-requests/${response.userId}`, {
+          const partnerResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/partner-requests/${response.userId}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -96,8 +96,8 @@ function Register() {
                   type="primary"
                   htmlType="submit"
                   style={{
-                    backgroundColor: '#49180c', // Base color
-                    borderColor: '#49180c', // Base border color
+                    backgroundColor: '#49180c',
+                    borderColor: '#49180c',
                   }}
                 >
                   Sign Up

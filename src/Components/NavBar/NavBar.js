@@ -7,7 +7,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const handleLogout = (e) => {
-    e.preventDefault(); // Prevent default link behavior
+    e.preventDefault();
     console.log('Logout clicked');
     localStorage.removeItem('token');
     navigate('/login');
@@ -22,7 +22,6 @@ const Navbar = () => {
       <div className="nav-links">
         <Link to="/menu">Menu</Link>
         <Link to="/pending-orders">Active Orders</Link>
-        <Link to="/contact-us">Contact Us</Link>
         <Link to="/" onClick={handleLogout}>Log Out</Link>
         <Link to="/profile">
           <i className="fas fa-user"></i>

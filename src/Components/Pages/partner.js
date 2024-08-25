@@ -24,7 +24,7 @@ const PartnerPage = () => {
 
     const fetchOrders = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/orders', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/orders`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -46,7 +46,7 @@ const PartnerPage = () => {
 
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/menuItems', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/menuItems`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -99,7 +99,7 @@ const PartnerPage = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:8080/api/orders/${orderId}`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/orders/${orderId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -142,7 +142,7 @@ const PartnerPage = () => {
 
   const updateMenuItemsAvailability = async (available) => {
     try {
-      const response = await fetch('http://localhost:8080/api/menuItems/updateAvailability', {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/menuItems/updateAvailability`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -168,13 +168,13 @@ const PartnerPage = () => {
 
   const handleCloseRestaurant = async () => {
     setRestaurantOpen(false);
-    localStorage.setItem('restaurantOpen', false); // Store in local storage
+    localStorage.setItem('restaurantOpen', false);
     await updateMenuItemsAvailability(false);
   };
 
   const handleOpenRestaurant = async () => {
     setRestaurantOpen(true);
-    localStorage.setItem('restaurantOpen', true); // Store in local storage
+    localStorage.setItem('restaurantOpen', true);
     await updateMenuItemsAvailability(true);
   };
 

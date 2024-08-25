@@ -11,11 +11,21 @@
 
 .header-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly; 
   align-items: center;
   width: 100%;
   padding: 1rem;
 }
+
+.search-bar {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  width: 200px;
+  background-color: beige;
+}
+
 
 .menu-header {
   font-size: 2rem;

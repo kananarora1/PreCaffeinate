@@ -15,7 +15,7 @@ function Login() {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          const userResponse = await fetch('http://localhost:8080/api/users/currentUser', {
+          const userResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/currentUser`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -44,7 +44,7 @@ function Login() {
       if (response.success) {
         message.success(response.message);
         localStorage.setItem('token', response.token);
-        const userResponse = await fetch('http://localhost:8080/api/users/currentUser', {
+        const userResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/currentUser`, {
           headers: {
             Authorization: `Bearer ${response.token}`,
           },

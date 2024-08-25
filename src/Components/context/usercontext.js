@@ -6,13 +6,14 @@ const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const backendUrl = "process.env.REACT_APP_BACKEND_URL";
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
       const fetchUserData = async () => {
         try {
-          const response = await fetch('http://localhost:8080/api/users/currentUser', {
+          const response = await fetch(`${backendUrl}api/users/currentUser`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },

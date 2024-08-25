@@ -12,7 +12,7 @@ const AdminPage = () => {
   useEffect(() => {
     const fetchPartnerRequests = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/users/partner-requests', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/partner-requests`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -38,7 +38,7 @@ const AdminPage = () => {
 
   const handleApprove = async (userId) => {
     try {
-      const response = await fetch(`http://localhost:8080/api/users/partner-requests/${userId}/approve`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/partner-requests/${userId}/approve`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -60,7 +60,7 @@ const AdminPage = () => {
 
   const handleReject = async (userId) => {
     try {
-      const response = await fetch(`http://localhost:8080/api/users/partner-requests/${userId}/reject`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/partner-requests/${userId}/reject`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,

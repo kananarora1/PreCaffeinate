@@ -29,7 +29,7 @@ const Profile = () => {
 
     const fetchItems = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/menuItems`);
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/menuItems`);
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }

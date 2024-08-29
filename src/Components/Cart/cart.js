@@ -10,8 +10,8 @@ const Cart = () => {
   const { cartItems, addToCart, removeFromCart, setCartItems } = useContext(CartContext);
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
-  const razorpayKey = "process.env.REACT_APP_RAZORPAY_KEY";
-  const backendUrl = "process.env.REACT_APP_BACKEND_URL";
+  const razorpayKey = "rzp_test_3k4tU1NXzKPP5L";
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
 
   useEffect(() => {

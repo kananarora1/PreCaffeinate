@@ -24,7 +24,12 @@ mongoose.connect(process.env.MONGODB_URL,
 
 app.use(express.json());
 
-app.use(cors());
+const corsOptions = {
+    origin: 'https://pre-caffeinate-ten.vercel.app',
+    optionsSuccessStatus: 200
+}
+
+app.use(cors(corsOptions));
 
 app.use('/api/users', userRoute);
 

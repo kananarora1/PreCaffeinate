@@ -18,7 +18,7 @@ exports.registerUser = async (req, res) => {
         await newUser.save();
 
         const token = jwt.sign({ userId: newUser._id }, process.env.secret_key_jwt, {
-            expiresIn: '1h',
+            expiresIn: '1d',
         });
 
         if (req.body.role === 'partner') {

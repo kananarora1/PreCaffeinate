@@ -15,7 +15,7 @@ const ProtectedRoute = ({ children }) => {
   } else if (user?.role === "admin" && location.pathname !== "/admin") {
     return <Navigate to="/admin" replace />;
   } else if (user?.role === "user" && location.pathname !== "/app") {
-    return <Navigate to="/app" replace />;
+    return <Navigate to="/app" />;
   }
 
   return children;

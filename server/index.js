@@ -24,20 +24,7 @@ mongoose.connect(process.env.MONGODB_URL,
 
 app.use(express.json());
 
-const allowedOrigins = ['http://localhost:3000', 'https://pre-caffeinate-ten.vercel.app'];
-
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-};
-
-app.use(cors(corsOptions));
-
+app.use(cors());
 
 app.use('/api/users', userRoute);
 

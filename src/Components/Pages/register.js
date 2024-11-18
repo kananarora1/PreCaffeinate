@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
-import { Form, Input, Button, Radio, message } from 'antd';
+import { Form, Input, Button, Radio } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { RegisterUser } from '../Calls/user';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './Register.css';
 
 function Register() {
@@ -18,8 +20,10 @@ function Register() {
       const response = await RegisterUser(values);
       console.log(response);
       console.log(response.userId);
+
       if (response.success) {
-        message.success(response.message);
+        toast.success(response.message, { position: toast.POSITION.TOP_RIGHT });
+
         if (values.role === 'partner') {
           const partnerResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/partner-requests/${response.userId}`, {
             method: 'POST',
@@ -30,23 +34,25 @@ function Register() {
             body: JSON.stringify({ userId: response.userId }),
           });
           const partnerData = await partnerResponse.json();
+
           if (partnerResponse.ok) {
-            message.success(partnerData.message);
+            toast.success(partnerData.message, { position: toast.POSITION.TOP_RIGHT });
           } else {
-            message.error(partnerData.message);
+            toast.error(partnerData.message, { position: toast.POSITION.TOP_RIGHT });
           }
         }
         navigate('/login');
       } else {
-        message.error(response.message);
+        toast.error(response.message, { position: toast.POSITION.TOP_RIGHT });
       }
     } catch (error) {
-      message.error(error.message);
+      toast.error(error.message || 'An error occurred. Please try again.', { position: toast.POSITION.TOP_RIGHT });
     }
   };
 
   return (
     <div className="form-container">
+      <ToastContainer /> {/* Add this for rendering the toast notifications */}
       <header className="App-header">
         <main className="main-area">
           <section className="left-section">

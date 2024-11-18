@@ -14,14 +14,20 @@ export const RegisterUser = async (value) => {
 
 // login user
 
-export const LoginUser = async (value) =>{
+export const LoginUser = async (value) => {
     try {
-        const response = await axiosInstance.post("/api/users/login", value);
-        return response.data
+      const response = await axiosInstance.post("/api/users/login", value);
+      return response.data;
     } catch (error) {
-        console.log(error);
+      if (error.response && error.response.data) {
+        console.log('Login error:', error.response.data.message);
+        throw new Error(error.response.data.message);
+      }
+      console.log('Network or unexpected error:', error.message);
+      throw new Error('An unexpected error occurred. Please try again.');
     }
-}
+  };
+  
 
 // get current user from the frontend
 export const GetCurrentUser = async () =>{

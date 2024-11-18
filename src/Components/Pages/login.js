@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Form, Input, message } from 'antd';
+import { Button, Form, Input } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { LoginUser } from '../Calls/user';
 import { UserContext } from '../context/usercontext';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './Register.css';
 
 function Login() {
@@ -22,11 +24,11 @@ function Login() {
           });
           const userData = await userResponse.json();
           if (userData.role === 'admin') {
-            navigate('/admin', { replace: true }); 
+            navigate('/admin', { replace: true });
           } else if (userData.role === 'partner') {
-            navigate('/partner', { replace: true }); 
+            navigate('/partner', { replace: true });
           } else {
-            navigate('/', { replace: true }); 
+            navigate('/', { replace: true });
           }
         } catch (error) {
           console.error('Error fetching user data:', error);
@@ -42,7 +44,7 @@ function Login() {
     try {
       const response = await LoginUser(values);
       if (response.success) {
-        message.success(response.message);
+        toast.success(response.message, { position: toast.POSITION.TOP_RIGHT });
         localStorage.setItem('token', response.token);
         const userResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/currentUser`, {
           headers: {
@@ -51,9 +53,7 @@ function Login() {
         });
         const userData = await userResponse.json();
         setUser(userData);
-        console.log('Fetched user data:', userData);
 
-        console.log('User role:', userData.role);
         if (userData.role === 'admin') {
           navigate('/admin', { replace: true });
         } else if (userData.role === 'partner') {
@@ -61,16 +61,19 @@ function Login() {
         } else {
           navigate('/', { replace: true });
         }
+      } else {
+        toast.error(response.message, { position: toast.POSITION.TOP_RIGHT });
       }
     } catch (error) {
-      message.error(error.message);
+      toast.error('Login failed. Please try again.', { position: toast.POSITION.TOP_RIGHT });
     }
   };
 
-  if (loading) return <div>Loading...</div>; 
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div className='form-container'>
+      <ToastContainer />
       <header className="App-header">
         <main className="main-area">
           <section className="left-section">
@@ -103,7 +106,7 @@ function Login() {
                 <Button type="primary" htmlType="submit" className='submit-btn'
                   style={{
                     backgroundColor: '#49180c',
-                    borderColor: '#49180c', 
+                    borderColor: '#49180c',
                   }}
                 >
                   Login

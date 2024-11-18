@@ -6,18 +6,27 @@ const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem("token");
   const location = useLocation();
 
+  // Redirect to login if no token exists
   if (!token) {
     return <Navigate to="/login" replace />;
   }
 
-  if (user?.role === "partner" && location.pathname !== "/partner") {
-    return <Navigate to="/partner" replace />;
-  } else if (user?.role === "admin" && location.pathname !== "/admin") {
-    return <Navigate to="/admin" replace />;
-  } else if (user?.role === "user" && location.pathname !== "/app") {
-    return <Navigate to="/app" />;
+  // Role-based redirection
+  if (user) {
+    const roleBasedRoutes = {
+      partner: "/partner",
+      admin: "/admin",
+      user: "/",
+    };
+
+    // Redirect only if the current path doesn't match the role's expected path
+    const expectedPath = roleBasedRoutes[user.role];
+    if (location.pathname !== expectedPath) {
+      return <Navigate to={expectedPath} replace />;
+    }
   }
 
+  // Render children if no redirection is needed
   return children;
 };
 

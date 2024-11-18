@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext } from 'react';
 import './menu.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { CartContext } from '../context/cartContext';
-import { useNavigate } from 'react-router-dom';
 
 const Menu = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -10,7 +9,6 @@ const Menu = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
   const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
-  const navigate = useNavigate();
   const categories = ['All', 'Noodles', 'Beverages', 'Snacks', 'Sandwich'];
 
   useEffect(() => {
